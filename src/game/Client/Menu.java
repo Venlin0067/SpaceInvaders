@@ -21,6 +21,7 @@ public class Menu {
     public Rectangle playButton = new Rectangle(Game.WIDTH / 2 + 120, 150, 100, 50);
     public Rectangle helpButton = new Rectangle(Game.WIDTH / 2 + 120, 250, 100, 50);
     public Rectangle exitButton = new Rectangle(Game.WIDTH / 2 + 120, 350, 100, 50);
+    public Rectangle levelButton = new Rectangle(Game.WIDTH / 2 + 120, 450, 100, 50);
     
     public void render(Graphics g){
         
@@ -45,6 +46,11 @@ public class Menu {
         g.setFont(fnt3);
         g.drawString("Exit", exitButton.x + 19, exitButton.y + 30);
         g2d.draw(exitButton);
+        
+        Font fnt4 = new Font("arial", Font.BOLD, 30);
+        g.setFont(fnt4);
+        g.drawString("Level", levelButton.x + 19, levelButton.y + 30);
+        g2d.draw(levelButton);
         
         
         String img = "src/images/menu.png";
