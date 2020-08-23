@@ -40,7 +40,7 @@ public class Game extends Canvas implements Runnable {
     //gameboard width
     public static final int WIDTH = 320;
     //gameboard height
-    public static final int HEIGHT = WIDTH / 12 * 9;
+    public static final int HEIGHT = WIDTH / 12 * 10;
     //scaling used in adjusting gameboard height
     public static final int SCALE = 2;
     //game title
