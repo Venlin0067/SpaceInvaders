@@ -34,6 +34,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class Game extends Canvas implements Runnable {
     //gameboard width
@@ -87,6 +88,8 @@ public class Game extends Canvas implements Runnable {
     //bullet
     private final int bulletSpeed = 2;
     private int BulletTemSpeed = bulletSpeed;
+    //declare level menu
+    private LevelMenu lvlmenu;
     //declare menu
     private Menu menu;
     //player shooting status
@@ -124,7 +127,8 @@ public class Game extends Canvas implements Runnable {
         
     public static enum STATE {
         MENU,
-        GAME
+        GAME,
+        LVLMENU
     };
 
     public static STATE state = STATE.MENU;
@@ -238,7 +242,8 @@ public class Game extends Canvas implements Runnable {
 
         } else if (state == STATE.MENU) {
             menu.render(g);
-        }
+        }else if (state == STATE.LVLMENU){
+          lvlmenu.levelMenu(g);}
 
         g.dispose();
         bs.show();
@@ -387,17 +392,10 @@ public class Game extends Canvas implements Runnable {
         if (enemyList.isEmpty()) {
             ship.clear();
             level += 1;
-            run();
+            enemyInit();
         }
         
-        var iterator = enemyList.getIterator();
-
-        while (iterator.hasNext()) {
-
-            double x = iterator.next().getX();
-            //System.out.println(x);
-            //when enemy reach right border it change moving direction and move down
-            if (x >= WIDTH * SCALE - BORDER_RIGHT && direction != -2) {
+         if (level == 1 && x >= WIDTH * SCALE - BORDER_RIGHT && direction != -2) {
 
                 direction = -2;
 
@@ -408,9 +406,34 @@ public class Game extends Canvas implements Runnable {
                     Enemy enemy = iterator2.next();
                     enemy.setY(enemy.getY() + GO_DOWN);
                 }
-            }
+            }else if (level == 2 && x >= WIDTH * SCALE - BORDER_RIGHT && direction!= -2)
+            {
+            direction = -3;
+
+                var iterator2 = enemyList.getIterator();
+
+                while (iterator2.hasNext()) {
+
+                    Enemy enemy = iterator2.next();
+                    enemy.setY(enemy.getY() + GO_DOWN);
+                }
+            }else if(level == 3 && x >= WIDTH * SCALE - BORDER_RIGHT && direction!= -2)
+            {
+            direction = -4;
+
+                var iterator2 = enemyList.getIterator();
+
+                while (iterator2.hasNext()) {
+
+                    Enemy enemy = iterator2.next();
+                    enemy.setY(enemy.getY() + GO_DOWN);
+                }
+            }else if(level == 4)
+            {JOptionPane.showMessageDialog(null, "You have achieve all the stage, thanks for playing!!");
+                System.exit(0);}
+              
             //when enemy reach left border it change moving direction and move down
-            if (x <= BORDER_LEFT && direction != 2) {
+            if (level == 1 && x <= BORDER_LEFT && direction != 2) {
 
                 direction = 2;
 
@@ -421,6 +444,32 @@ public class Game extends Canvas implements Runnable {
                     Enemy enemy2 = iterator3.next();
                     enemy2.setY(enemy2.getY() + GO_DOWN);
                 }
+            }else if(level == 2 && x <= BORDER_LEFT && direction != 2){
+            direction = 3;
+
+                var iterator3 = enemyList.getIterator();
+
+                while (iterator3.hasNext()) {
+
+                    Enemy enemy2 = iterator3.next();
+                    enemy2.setY(enemy2.getY() + GO_DOWN);
+                }
+                
+            }else if(level == 3 && x <= BORDER_LEFT && direction != 2)
+            {
+            direction = 4;
+
+                var iterator3 = enemyList.getIterator();
+
+                while (iterator3.hasNext()) {
+
+                    Enemy enemy2 = iterator3.next();
+                    enemy2.setY(enemy2.getY() + GO_DOWN);
+                }
+            }else if (level == 4)
+            {
+            JOptionPane.showMessageDialog(null, "You have achieve all the stage, thanks for playing!!");
+                System.exit(0);
             }
         }
 
@@ -564,8 +613,9 @@ public class Game extends Canvas implements Runnable {
         public void mousePressed(MouseEvent e) {
             int mx = e.getX();
             int my = e.getY();
-
-            if (mx >= Game.WIDTH / 2 + 120 && mx <= Game.WIDTH / 2 + 220) {
+            
+            if(Game.state == Game.state.MENU){
+            if (mx >= Game.WIDTH / 2 + 120 && mx <= Game.WIDTH / 2 + 220 ){
                 if (my >= 150 && my <= 200) {
                     Game.state = Game.state.GAME;
                     PlaySound(filepathM, false);
@@ -584,6 +634,41 @@ public class Game extends Canvas implements Runnable {
                     System.exit(1);
                 }
             }
+            
+            if (mx >= Game.WIDTH / 2 + 120 && mx <= Game.WIDTH / 2 + 220){
+            if (my >= 450 && my <= 500) {
+                    //displayLevel()
+                    Game.state = Game.state.LVLMENU;
+                    displayLevel();
+                    
+                }
+            }}else if(Game.state == Game.state.LVLMENU){
+                if (mx >= Game.WIDTH / 2 + 120 && mx <= Game.WIDTH / 2 + 220) {
+                if (my >= 150 && my <= 200) {
+                    Game.state = Game.state.GAME;
+                    level = 1;
+                    PlaySound(filepathM, false);
+                    PlaySound(filepathG, true);
+                }
+            }
+
+            if (mx >= Game.WIDTH / 2 + 120 && mx <= Game.WIDTH / 2 + 220) {
+                if (my >= 250 && my <= 300) {
+                    Game.state = Game.state.GAME;
+                    level = 2;
+                    PlaySound(filepathM, false);
+                    PlaySound(filepathG, true);
+                }
+            }
+
+            if (mx >= Game.WIDTH / 2 + 120 && mx <= Game.WIDTH / 2 + 220) {
+                if (my >= 350 && my <= 400) {
+                    Game.state = Game.state.GAME;
+                    level = 3;
+                    PlaySound(filepathM, false);
+                    PlaySound(filepathG, true);
+                }
+            }}
         }
 
         @Override
@@ -620,6 +705,12 @@ public class Game extends Canvas implements Runnable {
             if (p.getBounds().intersects(enemyList.getEntry(i).getBounds())
                     || p.getBounds().intersects(enemyList.getEntry(i).getLaser().getBounds()))
             {
+                JOptionPane.showMessageDialog(null, "You lose the game");
+                System.exit(0);
+                level = 1;
+                
+                return true;  
+                
                 return true;              
                 //System.out.println("player bound:" + p.getBounds());
 
@@ -664,6 +755,21 @@ public class Game extends Canvas implements Runnable {
         buff = true;
     }
 
+    public void displayLevel()
+    {
+     Game game = new Game();
+
+        game.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+        game.setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+        game.setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+
+      JFrame frame = new JFrame(game.TITLE); 
+        frame.pack();
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(false);
+    }
+    
     public void displayHelp() {
         JFrame helpFrame = new JFrame();
 
