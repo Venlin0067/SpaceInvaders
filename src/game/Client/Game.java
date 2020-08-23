@@ -514,7 +514,7 @@ public class Game extends Canvas implements Runnable {
                 laser.setY(Enemy.getY());
             }
             //when laser is outside of the gameboard, remove laser
-             (!laser.isRemove()) {
+             if (!laser.isRemove()) {
                 //laser moves 1px 
                 laser.setY(laser.getY() + 1);
 
