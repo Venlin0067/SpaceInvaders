@@ -395,7 +395,14 @@ public class Game extends Canvas implements Runnable {
             enemyInit();
         }
         
-         if (level == 1 && x >= WIDTH * SCALE - BORDER_RIGHT && direction != -2) {
+         var iterator = enemyList.getIterator();
+
+        while (iterator.hasNext()) {
+
+            double x = iterator.next().getX();
+            //System.out.println(x);
+            //when enemy reach right border it change moving direction and move down
+            if (level == 1 && x >= WIDTH * SCALE - BORDER_RIGHT && direction != -2) {
 
                 direction = -2;
 
@@ -507,7 +514,7 @@ public class Game extends Canvas implements Runnable {
                 laser.setY(Enemy.getY());
             }
             //when laser is outside of the gameboard, remove laser
-            if (!laser.isRemove()) {
+             (!laser.isRemove()) {
                 //laser moves 1px 
                 laser.setY(laser.getY() + 1);
 
