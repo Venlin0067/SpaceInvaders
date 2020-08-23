@@ -140,6 +140,7 @@ public class Game extends Canvas implements Runnable {
         addMouseListener(new MouseInput(this));
         c = new Controller(this);
         menu = new Menu();
+        lvlmenu = new LevelMenu();
         es = c.getEs();
         w = c.getW();
         enemyInit();
