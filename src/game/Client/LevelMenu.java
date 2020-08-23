@@ -13,8 +13,8 @@ import javax.swing.ImageIcon;
 
 public class LevelMenu {
     public Rectangle beginnerButton = new Rectangle(Game.WIDTH /2 + 100, 150, 150, 50);
-    public Rectangle normalButton = new Rectangle(Game.WIDTH /2 + 100, 250, 200, 50);
-    public Rectangle intermediateButton = new Rectangle(Game.WIDTH /2 + 100, 350, 200, 50);
+    public Rectangle normalButton = new Rectangle(Game.WIDTH /2 + 100, 250, 150, 50);
+    public Rectangle intermediateButton = new Rectangle(Game.WIDTH /2 + 100, 350, 150, 50);
     
     public void levelMenu(Graphics g){
         
